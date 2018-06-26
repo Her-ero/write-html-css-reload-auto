@@ -6,9 +6,8 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const _date = new Date()
-const banner = `
-/**
- * Build time: ' + _date.getFullYear() + '.' + (_date.getMonth() + 1) + '.' + _date.getDate() + ' - ' + _date.getHours() + ':' + _date.getMinutes()
+const banner = `/**
+ * Build time: ${_date.getFullYear()}.${_date.getMonth() + 1}.${_date.getDate()} - ${_date.getHours()}:${_date.getMinutes()}
  */
 `
 
