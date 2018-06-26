@@ -30,7 +30,6 @@ const webpackDevConfig = require('./webpack.base.conf')({
     // Don't use hashes in dev mode for better performance
     output: {
         path: BUILD_PATH,
-        // filename: utils.assetsPath('js/[name].[chunkhash].js'),// 导出的文件名
         filename: 'js/[name].js',
         chunkFilename: 'js/[name].chunk.js',
     },
