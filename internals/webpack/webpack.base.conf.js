@@ -11,8 +11,6 @@ const banner = `/**
  */
 `
 
-// const webpackConfig = merge(baseWebpackConfig, {
-// const webpackConfig = {
 const webpackBaseConfig = (options) => ({
     mode: options.mode,
     entry: options.entry,
@@ -164,11 +162,6 @@ const webpackBaseConfig = (options) => ({
             raw: true,
             entryOnly: true
         }),
-
-        // new webpack.ProvidePlugin({
-        //     // make fetch available
-        //     fetch: 'exports-loader?self.fetch!whatwg-fetch',
-        // }),
     ]),
     devtool: options.devtool,
     target: options.target,
