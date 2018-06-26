@@ -41,7 +41,7 @@ console.log(entries)
 console.log('------')
 
 // const webpackConfig = merge(baseWebpackConfig, {
-const webpackConfig = merge({}, {
+const webpackConfig = {
     mode: 'development',
     entry: entries,
     output: {
@@ -193,7 +193,7 @@ const webpackConfig = merge({}, {
 
         new webpack.BannerPlugin({banner: banner, raw: true, entryOnly: true})
     ]
-})
+}
 
 
 // var pages =  utils.getMultiEntry('./src/'+config.moduleName+'/**/**/*.html');
