@@ -2,57 +2,26 @@
 
 const utils = require('../utils')
 const path = require('path')
-const glob = require('glob')
 const webpack = require('webpack')
-const merge = require('webpack-merge')
-
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-// const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-
-// PATH
-const ROOT_PATH = process.cwd()
-const APP_PATH = path.resolve(ROOT_PATH, 'app')
-const BUILD_PATH = path.resolve(ROOT_PATH, 'build')
-
-// console.log('------')
-// console.log(ROOT_PATH)
-// console.log(APP_PATH)
-// console.log(path.resolve(ROOT_PATH, 'build'))
-// console.log('------')
 
 const _date = new Date()
-const banner =
-    '/*!\n' +
-    ' * Shraing app web v \n' +
-    ' * (c) ' + _date.getFullYear() + '\n' +
-    ' * Released under the SHARING License.\n' +
-    ' * Build time: ' + _date.getFullYear() + '.' + (_date.getMonth() + 1) + '.' + _date.getDate() + ' - ' + _date.getHours() + ':' + _date.getMinutes() + '\n' +
-    ' */'
-
-const entries = utils.getMultiEntryExtreme({
-    srcPath:  `${APP_PATH}${'/src/**/*.js'}`,
-    basePathName: `containers`
-})
-
-console.log('------')
-console.log(entries)
-console.log('------')
+const banner = `
+/**
+ * Build time: ' + _date.getFullYear() + '.' + (_date.getMonth() + 1) + '.' + _date.getDate() + ' - ' + _date.getHours() + ':' + _date.getMinutes()
+ */
+`
 
 // const webpackConfig = merge(baseWebpackConfig, {
-const webpackConfig = {
-    mode: 'development',
-    entry: entries,
-    output: {
-        path: BUILD_PATH,
-        // filename: utils.assetsPath('js/[name].[chunkhash].js'),// 导出的文件名
-        filename: 'js/[name].[chunkhash].js',
-        chunkFilename: 'js/[id].[chunkhash].js',
-    },
-    optimization: {
-        minimize: false
-    },
+// const webpackConfig = {
+const webpackBaseConfig = (options) => ({
+    mode: options.mode,
+    entry: options.entry,
+    output: Object.assign({ // Compile into js/build.js
+        // path: path.resolve(process.cwd(), process.env.BUILD_PATH || 'build'),
+        // publicPath: process.env.PUBLIC_PATH || '/',
+    }, options.output),
+    optimization: options.optimization,
     module: {
         rules: [
             // {
@@ -181,7 +150,7 @@ const webpackConfig = {
             },
         ],
     },
-    plugins: [
+    plugins: options.plugins.concat([
         // http://vuejs.github.io/vue-loader/en/workflow/production.html
         // new webpack.DefinePlugin({
         //     'process.env': '"trunk"' // 配置全局环境为生产环境
@@ -191,38 +160,21 @@ const webpackConfig = {
             filename: 'css/[name].[contenthash].css',
         }),
 
-        new webpack.BannerPlugin({banner: banner, raw: true, entryOnly: true})
-    ]
-}
+        new webpack.BannerPlugin({
+            banner: banner,
+            raw: true,
+            entryOnly: true
+        }),
 
+        // new webpack.ProvidePlugin({
+        //     // make fetch available
+        //     fetch: 'exports-loader?self.fetch!whatwg-fetch',
+        // }),
+    ]),
+    devtool: options.devtool,
+    target: options.target,
+    performance: options.performance || {},
 
-// var pages =  utils.getMultiEntry('./src/'+config.moduleName+'/**/**/*.html');
-// console.log(glob.sync(`${APP_PATH}${'/src/**/*.html'}`))
-// console.log(utils.getMultiEntry(`${APP_PATH}${'/src/**/*.html'}`))
-
-// 构建生成多页面的HtmlWebpackPlugin配置，主要是循环生成
-const htmls = utils.getMultiEntryExtreme({
-    srcPath:  `${APP_PATH}${'/src/**/*.html'}`,
-    basePathName: `containers`
 })
 
-for (var pathname in htmls) {
-
-    let conf = {
-        filename: pathname + '.html',
-        template: htmls[pathname], // 模板路径
-        chunks: ['vendor', pathname], // 每个html引用的js模块
-        inject: 'body',              // js插入位置, 'body'效果等同于 true
-        hash: false
-    }
-
-    webpackConfig.plugins.push(new HtmlWebpackPlugin(conf))
-
-    // webpackConfig.plugins.push(new webpack.DllReferencePlugin({
-    //     context: ROOT_PATH, // 指定一个路径作为上下文环境，需要与DllPlugin的context参数保持一致，建议统一设置为项目根目录
-    //     name: 'dll',  // 当前Dll的所有内容都会存放在这个参数指定变量名的一个全局变量下，注意与DllPlugin的name参数保持一致
-    //     manifest: path.resolve(ROOT_PATH, './dist/dll.json'), // 指定manifest.json
-    // }))
-}
-
-module.exports = webpackConfig
+module.exports = webpackBaseConfig

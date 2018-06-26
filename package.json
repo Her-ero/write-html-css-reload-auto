@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "",
+    "dev": "webpack --config internals/webpack/webpack.dev.conf.js --color -p --progress --hide-modules --display-optimization-bailout",
     "start": "node",
     "build": "webpack --config internals/webpack/webpack.base.conf.js --color -p --progress --hide-modules --display-optimization-bailout",
     "build:clean": "rimraf ./build",
