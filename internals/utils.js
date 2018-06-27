@@ -1,24 +1,22 @@
 const glob = require('glob');
 const path = require('path')
 
-exports.getMultiEntry = function (entryPath) {
-    let tmp
+exports.getMultiEntry = srcPath => {
     let entries = {}
-    let pathname
-    let basename
 
-    glob.sync(entryPath).forEach((entry) => {
-        basename = path.basename(entry, path.extname(entry))
-        tmp = entry.split('/').splice(-4)
+    if (!srcPath) {
+        throw new TypeError('need srcPath')
+    }
 
-        var pathSrc = `${tmp[0]}/${tmp[1]}`
-        if (tmp[0] === 'src') {
-            pathSrc = tmp[1]
-        }
+    const pathArr = glob.sync(srcPath)
 
-        pathname = `${pathSrc}/${basename}` // 正确输出js和html的路径
-        entries[pathname] = entry
-    });
+    pathArr.forEach(item => {
+
+        // let basename = path.basename(item, path.extname(item))
+        let basename = item.split('/').splice(-2, 1)
+
+        entries[basename] = item
+    })
 
     return entries
 }

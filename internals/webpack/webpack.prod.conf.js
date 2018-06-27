@@ -14,24 +14,22 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'build')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 
-const entries = utils.getMultiEntryExtreme({
-    srcPath:  `${APP_PATH}${'/**/*.js'}`,
-    basePathName: `page`
-})
+const entries = utils.getMultiEntry(`${APP_PATH}${'/page/**/*.js'}`)
 
-const htmls = utils.getMultiEntryExtreme({
-    srcPath:  `${APP_PATH}${'/**/*.html'}`,
-    basePathName: `page`
-})
+console.log('-----------')
+console.log(entries)
+console.log('-----------')
+
+const htmls = utils.getMultiEntry(`${APP_PATH}${'/page/**/*.html'}`)
 
 const webpackDevConf = webpackBaseConf({
-    mode: 'development',
+    mode: 'product',
     entry: entries,
-    // Don't use hashes in dev mode for better performance
+
     output: {
         path: BUILD_PATH,
-        filename: 'js/[name].js',
-        chunkFilename: 'js/[name].chunk.js',
+        filename: 'js/[name].[hash].js',
+        chunkFilename: 'js/[name].chunk.[hash].js',
         publicPath: '/',
     },
 

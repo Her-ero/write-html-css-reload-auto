@@ -58,9 +58,6 @@ compiler.plugin('compilation', compilation => {
     })
 })
 
-// handle fallback for HTML5 history API
-app.use(require('connect-history-api-fallback')())
-
 app.use(devMiddleware)
 
 app.use(hotMiddleware)

@@ -1,8 +1,9 @@
 {
   "scripts": {
     "start": "cross-env NODE_ENV=development node devServer",
-    "build:dev": "webpack --config internals/webpack/webpack.base.conf.js --color -p --progress --hide-modules --display-optimization-bailout",
+    "start:prod": "cross-env NODE_ENV=production node devServer",
     "build:clean": "rimraf ./build",
+    "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.conf.js --color -p --progress --hide-modules --display-optimization-bailout",
     "check": "node internals/webpack/webpack.base.conf.js"
   },
   "devDependencies": {
@@ -11,7 +12,6 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
-    "connect-history-api-fallback": "^1.5.0",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "eventsource-polyfill": "^0.9.6",
