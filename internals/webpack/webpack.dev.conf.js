@@ -15,12 +15,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 
 const entries = utils.getMultiEntryExtreme({
-    srcPath:  `${APP_PATH}${'/src/**/*.js'}`,
+    srcPath:  `${APP_PATH}${'/**/*.js'}`,
     basePathName: `containers`
 })
 
 const htmls = utils.getMultiEntryExtreme({
-    srcPath:  `${APP_PATH}${'/src/**/*.html'}`,
+    srcPath:  `${APP_PATH}${'/**/*.html'}`,
     basePathName: `containers`
 })
 
@@ -34,12 +34,29 @@ const webpackDevConfig = require('./webpack.base.conf')({
         chunkFilename: 'js/[name].chunk.js',
     },
 
+    babelQuery: {
+        presets: ['env'],
+        // presets: [
+        //     [
+        //         "env",
+        //         {
+        //             "modules": false
+        //         }
+        //     ],
+        //     "es2015",
+        //     "react",
+        //     "stage-0"
+        // ],
+    },
+
     optimization: {
         minimize: false,
     },
 
     // Add development plugins
-    plugins: [], // eslint-disable-line no-use-before-define
+    plugins: [
+        new webpack.HotModuleReplacementPlugin()
+    ], // eslint-disable-line no-use-before-define
 
     resolve: {
         modules: ['app', 'node_modules'],

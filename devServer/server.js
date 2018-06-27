@@ -3,11 +3,11 @@ const app = new Koa()
 const serve = require('koa-static')
 
 const webpack = require("webpack")
-const webpackConfig = require("../internals/webpack/webpack.dev.conf")
+const webpackDevConfig = require("../internals/webpack/webpack.dev.conf")
 const devMiddleware = require("./devMiddleware")
 const hotMiddleware = require('./hotMiddleware')
 
-const compiler = webpack(webpackConfig)
+const compiler = webpack(webpackDevConfig)
 
 app.use(devMiddleware(compiler))
 app.use(hotMiddleware(compiler))

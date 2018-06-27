@@ -35,6 +35,14 @@ const webpackBaseConfig = (options) => ({
             //     },
             // },
             {
+                test: /\.js$/, // Transform all .js/.jsx files required somewhere with Babel
+                use: {
+                    loader: 'babel-loader',
+                    options: options.babelQuery,
+                },
+                exclude: /node_modules/,
+            },
+            {
                 // Preprocess our own .css files
                 // This is the place to add your own loaders (e.g. sass/less etc.)
                 // for a list of loaders, see https://webpack.js.org/loaders/#styling
