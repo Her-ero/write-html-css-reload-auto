@@ -14,13 +14,17 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'build')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 
-const entries = utils.getMultiEntry(`${APP_PATH}${'/page/**/*.js'}`)
+// const entries = utils.getMultiEntry(`${APP_PATH}${'/page/**/*.js'}`)
+// const htmls = utils.getMultiEntry(`${APP_PATH}${'/page/**/*.html'}`)
 
-console.log('-----------')
-console.log(entries)
-console.log('-----------')
-
-const htmls = utils.getMultiEntry(`${APP_PATH}${'/page/**/*.html'}`)
+const entries = utils.getMultiEntryExtreme({
+    srcPath:  `${APP_PATH}${'/**/*.js'}`,
+    basePathName: `page`
+})
+const htmls = utils.getMultiEntryExtreme({
+    srcPath:  `${APP_PATH}${'/**/*.html'}`,
+    basePathName: `page`
+})
 
 const webpackDevConf = webpackBaseConf({
     mode: 'product',
@@ -57,6 +61,9 @@ const webpackDevConf = webpackBaseConf({
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         // new webpack.NoErrorsPlugin()
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        })
     ],
 
     resolve: {
@@ -84,6 +91,11 @@ const webpackDevConf = webpackBaseConf({
     performance: {
         hints: false,
     },
+
+    // devServer: {
+    //     // contentBase: './build',
+    //     hot: false
+    // }
 })
 
 // add hot-reload related code to entry chunks

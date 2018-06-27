@@ -86,6 +86,12 @@ const webpackDevConf = webpackBaseConf({
     performance: {
         hints: false,
     },
+
+    // devServer: {
+    //     // contentBase: APP_PATH,
+    //     inline: true,
+    //     hot: true
+    // }
 })
 
 // add hot-reload related code to entry chunks
@@ -93,7 +99,7 @@ Object.keys(webpackDevConf.entry).forEach(name => {
     webpackDevConf.entry[name] = ['./devServer/client.js'].concat(webpackDevConf.entry[name])
 })
 
-for (var pathname in htmls) {
+for (let pathname in htmls) {
 
     let conf = {
         filename: pathname + '.html',

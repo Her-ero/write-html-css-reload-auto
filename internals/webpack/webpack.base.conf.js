@@ -140,9 +140,15 @@ const webpackBaseConfig = (options) => ({
                     },
                 ],
             },
+            // {
+            //     test: /\.html$/,
+            //     use: 'html-loader',
+            // },
             {
                 test: /\.html$/,
-                use: 'html-loader',
+                use: [
+                    'raw-loader'
+                ]
             },
             {
                 test: /\.(mp4|webm|mp3)$/,
@@ -174,7 +180,7 @@ const webpackBaseConfig = (options) => ({
     devtool: options.devtool,
     target: options.target,
     performance: options.performance || {},
-
+    // devServer: options.devServer,
 })
 
 module.exports = webpackBaseConfig

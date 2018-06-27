@@ -58,13 +58,27 @@ compiler.plugin('compilation', compilation => {
     })
 })
 
+// console.log('------')
+// console.log(webpackDevConfig.entry)
+// console.log('------')
+
 app.use(devMiddleware)
 
 app.use(hotMiddleware)
 
-app.use(serve(BUILD_PATH, {
-    extensions: ['html']
-}))
+// app.use(serve(BUILD_PATH, {
+//     extensions: ['html']
+// }))
+
+// app.get('*', (req, res) => {
+//     fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
+//         if (err) {
+//             res.sendStatus(404)
+//         } else {
+//             res.send(file.toString())
+//         }
+//     })
+// })
 
 app.listen(3000, () => {
     console.log('app listen at 3000')
