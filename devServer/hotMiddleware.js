@@ -1,9 +1,9 @@
 // hotMiddleware.js
-const webpackHot = require('webpack-hot-middleware')
+const webpackHotMiddleware = require('webpack-hot-middleware')
 const PassThrough = require('stream').PassThrough
 
 const hotMiddleware = (compiler, opts) => {
-    const middleware = webpackHot(compiler, opts)
+    const middleware = webpackHotMiddleware(compiler, opts)
     return async (ctx, next) => {
         let stream = new PassThrough()
         ctx.body = stream
@@ -15,7 +15,6 @@ const hotMiddleware = (compiler, opts) => {
             }
         }, next)
     }
-
 }
 
 

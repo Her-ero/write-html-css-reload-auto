@@ -1,10 +1,10 @@
 /**
  * Created by Chen on 2018-06-26 0026.
  */
-
 const utils = require('../utils')
 const path = require('path')
 const webpack = require('webpack')
+const webpackBaseConf = require('./webpack.base.conf')
 
 // PATH
 const ROOT_PATH = process.cwd()
@@ -24,7 +24,7 @@ const htmls = utils.getMultiEntryExtreme({
     basePathName: `containers`
 })
 
-const webpackDevConfig = require('./webpack.base.conf')({
+const webpackDevConf = webpackBaseConf({
     mode: 'development',
     entry: entries,
     // Don't use hashes in dev mode for better performance
@@ -32,6 +32,7 @@ const webpackDevConfig = require('./webpack.base.conf')({
         path: BUILD_PATH,
         filename: 'js/[name].js',
         chunkFilename: 'js/[name].chunk.js',
+        publicPath: '/',
     },
 
     babelQuery: {
@@ -55,8 +56,10 @@ const webpackDevConfig = require('./webpack.base.conf')({
 
     // Add development plugins
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
-    ], // eslint-disable-line no-use-before-define
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.NoErrorsPlugin()
+    ],
 
     resolve: {
         modules: ['app', 'node_modules'],
@@ -83,7 +86,12 @@ const webpackDevConfig = require('./webpack.base.conf')({
     performance: {
         hints: false,
     },
-});
+})
+
+// add hot-reload related code to entry chunks
+Object.keys(webpackDevConf.entry).forEach(name => {
+    webpackDevConf.entry[name] = ['./devServer/client.js'].concat(webpackDevConf.entry[name])
+})
 
 for (var pathname in htmls) {
 
@@ -95,7 +103,7 @@ for (var pathname in htmls) {
         hash: false
     }
 
-    webpackDevConfig.plugins.push(new HtmlWebpackPlugin(conf))
+    webpackDevConf.plugins.push(new HtmlWebpackPlugin(conf))
 
     // webpackConfig.plugins.push(new webpack.DllReferencePlugin({
     //     context: ROOT_PATH, // 指定一个路径作为上下文环境，需要与DllPlugin的context参数保持一致，建议统一设置为项目根目录
@@ -104,4 +112,4 @@ for (var pathname in htmls) {
     // }))
 }
 
-module.exports = webpackDevConfig
+module.exports = webpackDevConf

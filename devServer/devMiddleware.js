@@ -1,9 +1,9 @@
 // devMiddleware.js
-
-const webpackDev = require('webpack-dev-middleware')
+const webpackDevMiddleware = require('webpack-dev-middleware')
 
 const devMiddleware = (compiler, opts) => {
-    const middleware = webpackDev(compiler, opts)
+    // 处理webpackConf
+    const middleware = webpackDevMiddleware(compiler, opts)
     return async (ctx, next) => {
         await middleware(ctx.req, {
             end: (content) => {
