@@ -25,6 +25,7 @@ const htmls = utils.getMultiEntryExtreme({
 })
 
 const webpackDevConf = webpackBaseConf({
+    // debug: true,
     mode: 'development',
     entry: entries,
     // Don't use hashes in dev mode for better performance
@@ -59,6 +60,7 @@ const webpackDevConf = webpackBaseConf({
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         // new webpack.NoErrorsPlugin()
+        // new webpack.NamedModulesPlugin(),
     ],
 
     resolve: {
@@ -82,6 +84,7 @@ const webpackDevConf = webpackBaseConf({
     // Emit a source map for easier debugging
     // See https://webpack.js.org/configuration/devtool/#devtool
     devtool: 'eval-source-map',
+    // devtool: '#cheap-module-eval-source-map',
 
     performance: {
         hints: false,

@@ -39,20 +39,23 @@ const devMiddleware = createDevMiddleware(compiler, {
     headers: { "X-Custom-Header": "yes" },
 
     // options for formating the statistics
-    stats: {
-        colors: true
-    }
+    stats: { colors: true },
+    // stats: 'errors-only',
+
+    // logLevel: 'warn',
+    // silent: true,
 })
 
 const hotMiddleware = createHotMiddleware(compiler, {
-    // log: console.log,
+    log: console.log,
     // path: '/__webpack_hmr',
-    // heartbeat: 10 * 1000
+    // heartbeat: 2000
 })
 
 // force page reload when html-webpack-plugin template changes
 compiler.plugin('compilation', compilation => {
     compilation.plugin('html-webpack-plugin-after-emit', (data, cb) => {
+        console.log(data)
         hotMiddleware.publish({ action: 'reload' })
         cb()
     })

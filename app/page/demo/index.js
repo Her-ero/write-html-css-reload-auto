@@ -5,5 +5,5 @@ import './style.less'
 import './index.html'
 
 if (module.hot) {
-    module.hot.accept()
+    // module.hot.accept()
 }
