@@ -140,16 +140,16 @@ const webpackBaseConfig = (options) => ({
                     },
                 ],
             },
-            // {
-            //     test: /\.html$/,
-            //     use: 'html-loader',
-            // },
             {
                 test: /\.html$/,
-                use: [
-                    'raw-loader'
-                ]
+                use: 'html-loader',
             },
+            // {
+            //     test: /\.html$/,
+            //     use: [
+            //         'raw-loader'
+            //     ]
+            // },
             {
                 test: /\.(mp4|webm|mp3)$/,
                 use: {

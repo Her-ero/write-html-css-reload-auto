@@ -32,8 +32,8 @@ const webpackDevConf = webpackBaseConf({
 
     output: {
         path: BUILD_PATH,
-        filename: 'js/[name].[hash].js',
-        chunkFilename: 'js/[name].chunk.[hash].js',
+        filename: 'js/[name].js',
+        chunkFilename: 'js/[name].chunk.js',
         publicPath: '/',
     },
 
